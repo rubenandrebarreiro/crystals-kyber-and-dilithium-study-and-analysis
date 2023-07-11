@@ -1,7 +1,7 @@
-# **_CRYSTALS_** (**_CRYptographic Suite for Algebraic LatticeS_**): <br> &nbsp;&#x2022; **_Kyber_** and **_Dilithium_** (Study and Analysis)
+# **_CRYSTALS_** (**_CRYptographic SuiTe for Algebraic LatticeS_**): <br> &nbsp;&#x2022; **_Kyber_** and **_Dilithium_** (Study and Analysis)
 
 ![https://raw.githubusercontent.com/rubenandrebarreiro/crystals-kyber-and-dilithium-study-and-analysis/master/imgs/JPGs/banner-1.jpg](https://raw.githubusercontent.com/rubenandrebarreiro/crystals-kyber-and-dilithium-study-and-analysis/master/imgs/JPGs/banner-1.jpg)
-###### CRYSTALS (**_CRYptographic Suite for Algebraic LatticeS_**) - Banner #1
+###### CRYSTALS (**_CRYptographic SuiTe for Algebraic LatticeS_**) - Banner #1
 
 ***
 
