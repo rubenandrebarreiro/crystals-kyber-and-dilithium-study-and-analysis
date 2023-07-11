@@ -15,7 +15,7 @@
 [![status of this version no. 3](https://img.shields.io/badge/status-unstable-orange.svg)](https://github.com/rubenandrebarreiro/crystals-kyber-and-dilithium-study-and-analysis/)
 [![status of this version no. 4](https://img.shields.io/badge/status-not&nbsp;documented-orange.svg)](https://github.com/rubenandrebarreiro/crystals-kyber-and-dilithium-study-and-analysis/)
 
-[![keyword of this version no. 1](https://img.shields.io/badge/keyword-post&nbsp;quantum-brown.svg)](https://github.com/rubenandrebarreiro/crystals-kyber-and-dilithium-study-and-analysis/)
+[![keyword of this version no. 1](https://img.shields.io/badge/keyword-classical&nbsp;post&nbsp;quantum&nbsp;cryptography-brown.svg)](https://github.com/rubenandrebarreiro/crystals-kyber-and-dilithium-study-and-analysis/)
 [![keyword of this version no. 2](https://img.shields.io/badge/keyword-lattice&nbsp;based-brown.svg)](https://github.com/rubenandrebarreiro/crystals-kyber-and-dilithium-study-and-analysis/)
 [![keyword of this version no. 3](https://img.shields.io/badge/keyword-kyber-brown.svg)](https://github.com/rubenandrebarreiro/crystals-kyber-and-dilithium-study-and-analysis/)
 [![keyword of this version no. 4](https://img.shields.io/badge/keyword-dilithium-brown.svg)](https://github.com/rubenandrebarreiro/crystals-kyber-and-dilithium-study-and-analysis/)
