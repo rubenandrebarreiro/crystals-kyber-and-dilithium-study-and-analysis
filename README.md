@@ -25,7 +25,12 @@
 [![technology used no. 3](https://img.shields.io/badge/built&nbsp;with-bouncy&nbsp;castle-red.svg)](https://www.bouncycastle.org/)
 [![technology used no. 4](https://img.shields.io/badge/built&nbsp;with-tex-red.svg)](https://tug.org/texlive/)
 
-[![star this repository](http://githubbadges.com/star.svg?user=rubenandrebarreiro&repo=crystals-kyber-and-dilithium-study-and-analysis&style=flat)](https://github.com/rubenandrebarreiro/crystals-kyber-and-dilithium-study-and-analysis/stargazers)
-[![fork this repository](http://githubbadges.com/fork.svg?user=rubenandrebarreiro&repo=crystals-kyber-and-dilithium-study-and-analysis&style=flat)](https://github.com/rubenandrebarreiro/crystals-kyber-and-dilithium-study-and-analysis/fork)
-[![downloads of this repository](https://img.shields.io/github/downloads/rubenandrebarreiro/crystals-kyber-and-dilithium-study-and-analysis/total.svg)](https://github.com/rubenandrebarreiro/crystals-kyber-and-dilithium-study-and-analysis/archive/master.zip)
+[![tags](https://img.shields.io/github/tag/rubenandrebarreiro/crystals-kyber-and-dilithium-study-and-analysis?include_prereleases=&sort=semver&color=blue)](https://github.com/rubenandrebarreiro/crystals-kyber-and-dilithium-study-and-analysis/releases/)
+[![license](https://img.shields.io/badge/License-MIT-blue)](#license)
+[![issues](https://img.shields.io/github/issues/rubenandrebarreiro/crystals-kyber-and-dilithium-study-and-analysis)](https://github.com/rubenandrebarreiro/crystals-kyber-and-dilithium-study-and-analysis/issues)
 [![price of this project](https://img.shields.io/badge/price-free-success.svg)](https://github.com/rubenandrebarreiro/crystals-kyber-and-dilithium-study-and-analysis/archive/master.zip)
+[![downloads of this repository](https://img.shields.io/github/downloads/rubenandrebarreiro/crystals-kyber-and-dilithium-study-and-analysis/total.svg)](https://github.com/rubenandrebarreiro/crystals-kyber-and-dilithium-study-and-analysis/archive/master.zip)
+
+[![stars](https://img.shields.io/github/stars/rubenandrebarreiro/crystals-kyber-and-dilithium-study-and-analysis?style=social)](https://github.com/rubenandrebarreiro/crystals-kyber-and-dilithium-study-and-analysis)
+[![watchers](https://img.shields.io/github/watchers/rubenandrebarreiro/crystals-kyber-and-dilithium-study-and-analysis?style=social)](https://github.com/rubenandrebarreiro/crystals-kyber-and-dilithium-study-and-analysis)
+[![forks](https://img.shields.io/github/forks/rubenandrebarreiro/crystals-kyber-and-dilithium-study-and-analysis?style=social)](https://github.com/rubenandrebarreiro/crystals-kyber-and-dilithium-study-and-analysis)
