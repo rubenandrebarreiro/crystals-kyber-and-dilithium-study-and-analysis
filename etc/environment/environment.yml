@@ -1,0 +1,8 @@
+name: crystals-kyber-and-dilithium-study-and-analysis
+channels:
+  - conda-forge
+dependencies:
+  - pandas
+  - numpy
+  - ipywidgets
+  - beakerx
