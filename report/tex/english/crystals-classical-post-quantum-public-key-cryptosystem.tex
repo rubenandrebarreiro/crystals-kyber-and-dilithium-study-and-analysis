@@ -95,5 +95,66 @@
         
         In this paper/report, we discuss Lattice-based Cryptography in detail, its fundamentals, as well as the mathematical and computational\break hardness assumptions involved, presenting a detailed description and analysis of CRYptographic SuiTe for Algebraic LatticeS (CRYSTALS) public-key cryptosystem, namely its variants for asymmetric encryption (CRYSTALS-Kyber) and digital signatures (CRYSTALS-Dilithium),\break already selected as the new (and first-ever) standards for public-key\break cryptography to be adopted at the beginning of the post-quantum era.
     \end{abstract}
+
+    \section{Background}
+    \label{sec:background}
+
+    Recently, due to the emergence of Quantum Computing and its expected future impact on Modern Cryptography, from the threats arising from some quantum algorithms such as Grover's, Simon's, Brassard-Hoyer-Tapp (BHT), and Shor's algorithms, new quantum-resistant cryptographic primitives are being studied.
+    
+    These new alternatives of Modern Cryptography are mainly focused on Key Exchanges and Public-Key Cryptography since the expected impacts of Grover's, Simon's, and BHT algorithms on Symmetric Cryptography and Cryptographic Hash Functions are minor when compared to the impact Shor's algorithm will have on Asymmetric Cryptography and Public-Key Cryptosystems we use.
+    
+    We support this claim since we expect symmetric encryption and\break cryptographic hash algorithms to have their security strength only reduced by half and by a third, respectively. For instance, symmetric encryption algorithms, such as Advanced Encryption Standard (AES), are currently believed to be quantum-resistant when we use them with key sizes doubled regarding what we consider secure nowadays (i.e., 256 bits are considered quantum-resistant) in\break order to resist to brute-force attacks made by Grover's and Simon's algorithms. Similarly, cryptographic hash algorithms, such as Secure Hash Algorithm (SHA), are currently believed to be quantum-resistant when we use them with output sizes tripled regarding what we consider secure nowadays (i.e., 384 bits or more, are believed to be quantum-resistant) in order to resist to collision and birthday attacks made by BHT algorithm (also known as Quantum Birthday Attack).
+
+    In the opposite direction, we expect the Asymmetric and Public-Key\break Cryptography we currently use nowadays to be easily ``broken'' by Shor's\break algorithm in polylogarithmic time, running in a sufficiently powerful Quantum Computer with a large processing capacity, no matter how large the keys used are nor how we change the security parameters. This claim is valid since Shor's algorithm can solve the factorization of large integer numbers into smaller prime numbers as well as the discrete logarithm problem in a very efficient fashion, while most of the currently used public-key cryptosystems, digital signature schemes, and key exchange protocols in our daily lives, such as RSA, DH,\break ElGamal, Digital Signature Algorithm (DSA), and other primitives based on ECC, have their security relied precisely on the computational hardness from\break these two mathematical problems when we consider only classical contexts.\break However, for quantum contexts, all these mentioned cryptographic primitives will become obsolete, and that is the reason why we need to replace them.
+
+    From this incoming need, two new major families of Modern Cryptography arose, one named (Classical) Post-Quantum Cryptography and the other named Quantum Cryptography, as the more suitable candidates for replacement of the cryptographic primitives we use nowadays, which we will start to refer to as (Classical) Pre-Quantum Cryptography to simplify the presented nomenclature.    
+    
+    The former is very similar to the cryptographic primitives we currently use in (Classical) Pre-Quantum Cryptography and also uses classical information (in the form of bits). However, (Classical) Post-Quantum Cryptography has its basis in mathematical problems and computational assumptions we believe to be hard to be solved by a classical computer and even by a considerably powerful\break quantum computer. In particular, we have several categories of (Classical)\break Post-Quantum Cryptography differing on what type of mathematical problems they have their computational hardness assumptions based on, such as\break Lattice-based Cryptography, Code-based Cryptography, Hash-based\break Cryptography, Isogeny-based Cryptography, Multivariate Cryptography,\break Non-Commutative (Group-based) Cryptography, and Zero-Knowledge Proofs (ZKPs). Since some cryptographic primitives for symmetric encryption and hash computation, such as AES and SHA, for example, are quantum-resistant when used with sufficiently large sizes for keys and outputs, as mentioned before, we can consider them primitives of (Classical) Post-Quantum Cryptography as well.
+
+    The latter follows a very different approach when compared to the previously mentioned (Classical) Pre-Quantum and Post-Quantum Cryptography. Namely, it uses quantum information (in the form of quantum bits, also known simply as qubits, or quantum modes, also known simply as qumodes) in addition to the usual classical information. Moreover, it does not depend on any mathematical\break problems and computational hardness assumptions since it relies on postulates and fundamentals from Quantum Mechanics, as well as laws of physics. More specifically, it uses well-studied quantum phenomena such as Quantum\break Superposition and Quantum Entanglement, as well as postulates and properties ruled from them, such as Wave Interference, Heisenberg's Uncertainty Principle, Observer's Effect, Measurement Statistics (e.g., Non-Locality), No-Go Theorems\break (e.g., No-Cloning and No-Deleting Theorems), Monogamy of Entanglement,\break Special Relativity, among others. Since these quantum phenomena rule nature and reality themselves, they cannot simply be avoided or modified by an attacker, as well as retire any dependence of cryptographic primitives on future advances in computational power and respective continuous cryptoanalysis, reasons why it offers theoretical unconditional security and can achieve perfect security in the future. In particular, from Quantum Cryptography, we can build several cryptographic primitives, such as Quantum Key Distribution (QKD), Semi-Quantum Key Distribution (SQKD), Quantum Conference Key Agreement (QCKA), Semi-Quantum Conference Key Agreement (SQCKA), Quantum Oblivious Transfer (QOT), Quantum Digital Signature (QDS), Quantum Hashing, Quantum Bit Commitment, among others. However, due to the current state of quantum technology, the development and implementation of these physical apparatuses and systems still have their limitations, and there are gaps between its currently available setups and the ideal ones.
+
+
+    \newpage
+    
+    \noindent For a global perspective of the current state of Modern Cryptography regarding both classical and quantum contexts, we have the following summary table:
+
+    \vspace{-2ex}
+    \begin{table}[ht!]
+        \begin{tabular}{|c|c|cc|c|c|}
+        \hline
+        \multirow{2}{*}{Type}          & Cryptographic                     & \multicolumn{2}{c|}{Security Strength (in bits)}                 & Is Long-Term                     & Possible        \\ \cline{3-4}
+        & Primitive                         & \multicolumn{1}{c|}{Classical}            & Quantum              & Secure?                          & Countermeasures \\ \hline
+        \multirow{6}{*}{\rotatebox{90}{\parbox{2.35cm}{\centering Symmetric Cryptography}}}     & \multirow{2}{*}{\textit{AES-128}} & \multicolumn{1}{c|}{\multirow{2}{*}{$128$}} & \multirow{2}{*}{$64$}  & \multirow{2}{*}{No}              & Use larger      \\
+        &                                   & \multicolumn{1}{c|}{}                     &                      &                                  & symmetric       \\ \cline{2-5}
+        & \multirow{2}{*}{\textit{AES-192}} & \multicolumn{1}{c|}{\multirow{2}{*}{$192$}} & \multirow{2}{*}{$96$}  & \multirow{2}{*}{No}              & key sizes       \\
+        &                                   & \multicolumn{1}{c|}{}                     &                      &                                  & (with doubled   \\ \cline{2-5}
+        & \multirow{2}{*}{\textit{AES-256}} & \multicolumn{1}{c|}{\multirow{2}{*}{$256$}} & \multirow{2}{*}{$128$} & \multirow{2}{*}{Yes}             & sizes)          \\
+        &                                   & \multicolumn{1}{c|}{}                     &                      &                                  &                 \\ \hline
+        \multirow{6}{*}{\rotatebox{90}{\parbox{2.3cm}{\centering Cryptographic Hash/Digest Functions}}} & \textit{SHA3-224}                 & \multicolumn{1}{c|}{112}                  & $\approx 74$              & No                               & Use larger      \\ \cline{2-5}
+        & \textit{SHA3-256}                 & \multicolumn{1}{c|}{$128$}                  & $\approx 85$               & No                               & output          \\ \cline{2-5}
+        & \textit{SHA3-384}                 & \multicolumn{1}{c|}{$192$}                  & $128$                  & Yes                              & digest          \\ \cline{2-5}
+        & \textit{SHA3-512}                 & \multicolumn{1}{c|}{$256$}                  & $\approx 170$           & Yes                              & sizes           \\ \cline{2-5}
+        & \textit{SHAKE128$(d)$}              & \multicolumn{1}{c|}{$\min(\frac{d}{2}, 128)$}        & $\min(\frac{d}{3}, 128)$        & Yes, if $\frac{d}{3} \geq 128$ & (with tripled   \\ \cline{2-5}
+        & \textit{SHAKE256$(d)$}              & \multicolumn{1}{c|}{$\min(\frac{d}{2}, 256)$}        & $\min(\frac{d}{3}, 256)$       & Yes, if $\frac{d}{3} \geq 128$ & sizes)          \\ \hline
+        \multirow{11}{*}{\rotatebox{90}{\parbox{2cm}{\centering Asymmetric Cryptography}}}   & \textit{RSA}                      & \multicolumn{1}{c|}{}                     &                      & No                               & No direct       \\ \cline{2-5}
+        & \textit{DH}                       & \multicolumn{1}{c|}{}                     &                      & No                               & countermeasures \\ \cline{2-5}
+        & \textit{DSA}                      & \multicolumn{1}{c|}{}                     &                      & No                               & and new         \\ \cline{2-5}
+        & \textit{Elliptic Curve}           & \multicolumn{1}{c|}{\multirow{3}{*}{}}    & \multirow{3}{*}{}    & \multirow{3}{*}{No}              & solutions are   \\
+        & \textit{Diffie-Hellman}           & \multicolumn{1}{c|}{}                     &                      &                                  & needed, such as \\
+        & \textit{(ECDH)}                   & \multicolumn{1}{c|}{}                     &                      &                                  & (Classical)     \\ \cline{2-5}
+        & \textit{Elliptic Curve}           & \multicolumn{1}{c|}{\multirow{4}{*}{}}    & \multirow{4}{*}{}    & \multirow{4}{*}{No}              & Post-Quantum    \\
+        & \textit{Digital Signature}        & \multicolumn{1}{c|}{}                     &                      &                                  & Cryptography    \\
+        & \textit{Algorithm}                & \multicolumn{1}{c|}{}                     &                      &                                  & or Quantum      \\
+        & \textit{(ECDSA)}                  & \multicolumn{1}{c|}{}                     &                      &                                  & Cryptography    \\ \cline{2-5}
+        & \textit{ElGamal}                  & \multicolumn{1}{c|}{}                     &                      & No                               &                 \\ \hline
+        \end{tabular}
+    \end{table}
+    
+    Even if this cryptographic threat does not seem to have immediate repercussions since the current quantum computers are still very limited in terms of processing capacity and noise, the whole scenario changes if we consider the Harvest Now - Decrypt Later (HNDL) paradigm, where an attacker can store information protected by these cryptographic primitives, waiting for a sufficiently powerful quantum computer to appear in the future, to then, be able to ``break'' such encryption and stole private information, what can lead to critical leakage of confidential information in military and health services, where that information usually needs to be kept as private for several years.
+    
+    \newpage
+
+
+    
     
 \end{document}
