@@ -1,0 +1,99 @@
+\documentclass[runningheads]{llncs}
+
+\usepackage[long,nodayofweek,level,12hr]{datetime}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{caption}
+\usepackage[utf8]{inputenc}
+\usepackage{multirow}
+\usepackage{tikz}
+\usepackage{amssymb}
+\usepackage{physics}
+\usepackage{stmaryrd}
+\usepackage{cleveref}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\floatname{algorithm}{Sub-routine}
+
+\makeatletter
+\renewcommand\subsubsection{\@startsection{subsubsection}{3}{\z@}%
+                       {-18\p@ \@plus -4\p@ \@minus -4\p@}%
+                       {0.5em \@plus 0.22em \@minus 0.1em}%
+                       {\normalfont\normalsize\bfseries\boldmath}}
+\makeatother
+
+\setcounter{secnumdepth}{3}
+\numberwithin{equation}{section}
+
+\title{
+    CRYSTALS\\(CRYptographic SuiTe for Algebraic LatticeS):\\ A New (Classical) Post-Quantum\\Public-Key Cryptosystem Standard
+}
+
+\subtitle{    
+    \vspace{4ex} Advanced Topics in Information Security II / Cryptography and Security Protocols\\ \vspace{2ex} \normalsize Ph.D. (Doctoral Program) in Information Security\\ \vspace{2ex} \normalsize Instituto Superior T\'{e}cnico, University of Lisbon\\(2022/2023 - 2${}^{\mathrm{nd}}$ Semester)
+    \vspace{-3ex}
+}
+
+\titlerunning{
+    CRYSTALS: A (Classical) Post-Quantum Public-Key Cryptosystem
+}
+
+\author{
+    R\'{u}ben Barreiro\inst{1}\thanks{Student Identification: IST1108107} \and
+    Paulo Mateus\inst{1,2}\thanks{Acknowledgments and thanks to Prof. Paulo Mateus, who is the lecturer of\break the course ``Advanced Topics in Information Security II / Cryptography and Security\break Protocols'' at Instituto Superior T\'{e}cnico, University of Lisbon, Portugal.}
+}
+
+\authorrunning{R\'{u}ben Barreiro et al.}
+
+\institute{
+    Instituto Superior T\'{e}cnico, University of Lisbon, Portugal\\
+    \email{\{ruben.andre.letra.barreiro,paulo.mateus\}\\@tecnico.ulisboa.pt} \and
+    Instituto de Telecomunica\c{c}\~{o}es, Portugal\\
+    \email{paulo.mateus@lx.it.pt}
+}
+
+\date{\today}
+
+
+\begin{document}
+
+    \maketitle
+    
+    \vspace{2ex}
+
+    \hrule
+
+    \vspace{-1ex}
+    \begin{figure}[!h]
+        \centering
+        \includegraphics[width=0.54\linewidth]{figures/logos/cryptosystem/crystals-cryptosystem.pdf}\\
+        \begin{minipage}{.5\textwidth}
+            \centering
+            \vspace{-6ex}
+            \includegraphics[width=0.9\linewidth]{figures/logos/college-and-r&d-labs/university-of-lisbon-horizontal-logo.pdf}
+        \end{minipage}%
+        \hspace{-12ex}
+        \begin{minipage}{.5\textwidth}
+            \centering
+            \vspace{-6ex}
+            \includegraphics[width=0.9\linewidth]{figures/logos/college-and-r&d-labs/instituto-superior-tecnico-horizontal-logo.pdf}
+        \end{minipage}\\
+        \vspace{-8ex}
+        \includegraphics[width=0.4\linewidth]{figures/logos/college-and-r&d-labs/instituto-telecomunicacoes-logo.pdf}
+    \end{figure}
+    \vspace{-1ex}
+
+    \hrule
+    
+    \newpage
+
+    \begin{abstract}
+        In the last few years, Quantum Computing has been growing exponentially, and several quantum algorithms are threatening most of the cryptography we are using nowadays. In 1994, Peter Shor proposed one of them, known nowadays simply as Shor’s algorithm. This algorithm is capable of factoring large integer numbers into smaller prime numbers and finding discrete logarithms in a polylogarithmic time. These two problems are generally considered hard on a classical computer, and we apply this computational hardness assumption as the basis of several cryptosystems we used since the 1970s. For instance, the security factor\break of popular cryptosystems, such as Rivest-Shamir Adleman (RSA),\break Diffie-Hellman (DH), and Elliptic-Curve Cryptography (ECC), rely on this assumption. However, this hardness assumption does not hold for\break quantum computers due to the expected impact of Shor's algorithm.
+
+        Concerning this imminent threat, the scientific community is putting enormous efforts into selecting new quantum-resistant candidates, arising\break two new leading families of quantum-resistant cryptography, known as (Classical) Post Quantum Cryptography and Quantum Cryptography. For the former, we consider mathematical approaches and problems\break believed to be computationally hard to solve in both classical and\break quantum computers. From this family of candidates, we have a popular set of cryptographic primitives based on mathematical problems related to algebraic lattices, commonly known as Lattice-based Cryptography.
+        
+        In this paper/report, we discuss Lattice-based Cryptography in detail, its fundamentals, as well as the mathematical and computational\break hardness assumptions involved, presenting a detailed description and analysis of CRYptographic SuiTe for Algebraic LatticeS (CRYSTALS) public-key cryptosystem, namely its variants for asymmetric encryption (CRYSTALS-Kyber) and digital signatures (CRYSTALS-Dilithium),\break already selected as the new (and first-ever) standards for public-key\break cryptography to be adopted at the beginning of the post-quantum era.
+    \end{abstract}
+    
+\end{document}
