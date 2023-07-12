@@ -1,0 +1,82 @@
+\documentclass[varwidth=\maxdimen]{standalone}
+\usepackage{msc}
+
+\begin{document}
+
+
+    \begin{figure}[h!]
+        \centering
+        
+        \setmsckeyword{} 
+        
+        \begin{msc}{Time Events and Messages for \texttt{CRYSTALS}\textsubscript{\texttt{Kyber}}\texttt{.KE}}
+            
+            \declinst{p1}{Alice}{${P}_{1}$}
+            \declinst{p2}{Bob}{${P}_{2}$}
+
+            \coordinate (A) at (1.1,-2.75);
+            \draw (A) node[left] {
+                \begin{tabular}{r}
+                    $( {k}_{pub\_A}, {k}_{priv\_A} )$ $\gets$ \texttt{CRYSTALS}\textsubscript{\texttt{Kyber}}
+                \end{tabular}
+            };
+            \coordinate (B) at (1.5,-3.2);
+            \draw (B) node[left] {
+                \begin{tabular}{r}
+                    \texttt{.KEM.Key\_Gen()}
+                \end{tabular}
+            };
+
+
+            \nextlevel
+            
+            \mess{${k}_{pub\_A}$}{p1}{p2}[1]
+
+            \coordinate (C) at (8,-3.25);
+            \draw (C) node[left] {
+                \begin{tabular}{r}
+                    $( ct, K )$ $\gets$ \texttt{CRYSTALS}\textsubscript{\texttt{Kyber}}
+                \end{tabular}
+            };
+            \coordinate (D) at (9.3,-3.7);
+            \draw (D) node[left] {
+                \begin{tabular}{r}
+                    \texttt{.KEM.Encaps(${k}_{pub\_A}$)}
+                \end{tabular}
+            };
+
+            \coordinate (E) at (5.75,-4.45);
+            \draw (E) node[left] {
+                \begin{tabular}{r}
+                    $key$ := $K$
+                \end{tabular}
+            };
+            
+            \nextlevel
+            \nextlevel
+            \nextlevel
+
+            \mess{$ct$}{p2}{p1}[1]
+
+            \coordinate (F) at (-0.55,-4.6);
+            \draw (F) node[left] {
+                \begin{tabular}{r}
+                    $key$ := \texttt{CRYSTALS}\textsubscript{\texttt{Kyber}}
+                \end{tabular}
+            };
+
+            \coordinate (G) at (1.45,-5.05);
+            \draw (G) node[left] {
+                \begin{tabular}{r}
+                    \texttt{.KEM.Decaps(${k}_{priv\_A}$, $ct$)}
+                \end{tabular}
+            };
+
+            \nextlevel
+            \nextlevel
+            
+        \end{msc}
+        
+    \end{figure}
+
+\end{document}
