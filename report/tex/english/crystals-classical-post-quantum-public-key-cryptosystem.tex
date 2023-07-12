@@ -404,4 +404,472 @@
     \newpage
     
     
+
+
+        \section{CRYSTALS (CRYptographic SuiTe for Algebraic LatticeS)}
+    \label{sec:crystals-cryptographic-suite-for-algebraic-lattices}
+
+    The CRYptographic SuiTe for Algebraic LatticeS (CRYSTALS) is a (classical) post-quantum cryptographic suite encompassing two cryptographic primitives, named Kyber and Dilithium. The former is a secure INDistinguishabile under Chosen Plaintext Attack (IND-CPA) asymmetric encryption algorithm and a\break secure INDistinguishable under adaptive Chosen Ciphertext Attack (IND-CCA2) Key Encapsulation Method (KEM), which we can also use as a Key Exchange protocol. The latter is a secure digital signature scheme and is strongly\break Existential UnForgeability under adaptive Chosen-Message Attack (EUF-CMA).
+    
+    These cryptographic primitives have their security assumptions based on\break computational hardness from mathematical problems over module lattice groups, which are considered, until the current date, secure against attacks made from both classical and quantum computers. Both Kyber and Dilithium have been submitted to the contest of the Post-Quantum Cryptography Standardization project, being finalists of the 3${}^{\mathrm{rd}}$ round of the standardization contest and also selected as some of the first-ever standard cryptographic primitives for the\break post-quantum era. Each of these cryptographic primitives has three variants offering different levels of security, which we will address in detail in this report.
+        
+    \subsection{CRYSTALS-Kyber}
+    \label{subsec:crystals-kyber}
+
+    CRYSTALS-Kyber is a (classical) post-quantum asymmetric cryptosystem\break designed to be quantum-resistant to future cryptanalytic attacks performed by future powerful quantum computers, ensuring security in the classical contexts\break as well. This cryptographic primitive uses a variant of the already mentioned LWE problem on lattice groups as its primary trapdoor function. Namely, this asymmetric cryptosystem won the first spot in the NIST Post-Quantum\break Cryptography Standardization project and is already selected as a new standard to replace the currently used (classical) pre-quantum asymmetric cryptosystems that are vulnerable to attacks performed by quantum computers in the future.
+
+    \vspace{-3ex}
+    \begin{figure}[!ht]
+        \centering
+        \captionsetup{justification=centering}
+        \includegraphics[width=0.6\textwidth]{figures/sections/section-3/crystals-kyber.pdf}
+        \caption{Logotype of CRYSTALS-Kyber cryptographic primitive.}
+        \label{fig:crystals-kyber-logo}
+    \end{figure}
+
+    \vspace{-3ex}
+    \noindent The design of the primitive CRYSTALS-Kyber has its roots inspired by the LWE-based asymmetric cryptosystem previously proposed by Oded Regev in 2005. Namely, we can improve the practical efficiency of such cryptosystems by employing the same probability distribution used for the noise to build a secret (i.e., a private key) and using a square matrix rather than a rectangular one as the public key. Another improvement is to use polynomial rings rather than integer numbers, as originally used in the NTRU cryptosystem, to define the RLWE and MLWE mathematical problems. From these two main ideas, we build CRYSTALS-Kyber as having its computational hardness assumption based on the MLWE problem. Since from the CRYSTALS-Kyber cryptosystem, we construct the IND-CCA KEM on top of the CPA asymmetric encryption algorithm, the formal definition of the latter will come in the first place.
+
+
+    \subsubsection{CRYSTALS-Kyber IND-CPA Asymmetric Encryption\\ Algorithm}
+    \label{subsubsec:crystals-kyber-ind-cpa-asymmetric-encryption-algorithm}
+
+    Let $k$, ${d}_{t}$, ${d}_{u}$, and ${d}_{v}$ be positive integer parameters, and recall that $n = 256$.\break Additionally, let $\mathcal{M} = { \{ 0 , 1 \} }^{256}$ denote the messages space, where every message\break $m \in \mathcal{M}$ can be viewed as a polynomial in the algebraic ring $\mathcal{R}$ with binary\break coefficients (i.e., in $\{ 0 , 1 \}$). Now, consider the public-key asymmetric encryption\break algorithm denoted by \texorpdfstring{\texttt{CRYSTALS}\textsubscript{\texttt{Kyber}}\texttt{.Asym\_Enc} = \big(\texttt{Key\_Gen}, \texttt{Enc}, \texttt{Dec}\big)}\/. Here, the ciphertexts are of the form $ ct = (u, v) \in \left( { \{ 0, 1 \} }^{\left( 256 \cdot k \cdot {d}_{u} \right)} \times { \{ 0, 1 \} }^{\left( 256 \cdot {d}_{v} \right)} \right)$. Then, in order to properly define the \texorpdfstring{\texttt{CRYSTALS}\textsubscript{\texttt{Kyber}}}\/ asymmetric encryption\break algorithm \texttt{Asym\_Enc}, the sub-routines \texttt{Key\_Gen}, \texttt{Enc}, and \texttt{Dec} are defined as:
+
+    \vspace{-2.75ex}
+    \begin{algorithm}
+        \caption{\texorpdfstring{\texttt{CRYSTALS}\textsubscript{\texttt{Kyber}}\texttt{.Asym\_Enc}\texttt{.Key\_Gen}()}\/: Key Generation}
+        \label{subrou:crystals-kyber-asymmetric-encryption-key-gen}
+        
+        \textbf{Input:} $\left( n, q, k, \eta \right)$\\
+        \textbf{Output:} $\left( {k}_{pub}, {k}_{priv} \right)$
+        
+        \begin{algorithmic}[1]
+            \Require $n = 256$, $q = 7681$, $k > 0$, $\eta > 0$
+            \Ensure $n \in \mathbb{Z},\ q \in \mathbb{Z},\ k \in \mathbb{Z},\ \eta \in \mathbb{Z}$
+        
+            \vspace{2ex}
+            
+            \State $\rho, \sigma \gets { \{ 0 , 1 \} }^{n} = { \{ 0 , 1 \} }^{256}$
+            \State $A \sim {\mathcal{R}}_{q}^{( k \times k )} = {\mathcal{R}}_{7681}^{( k \times k )}$ := \texttt{Sample}($\rho$)
+            \State $(s, e) \sim \left( {\beta}_{\eta}^{k} \times {\beta}_{\eta}^{k} \right)$ := \texttt{Sample}($\sigma$)
+            \State $t$ := \texttt{Compress}\textsubscript{$q$}$\left( A \cdot s + e, {d}_{t} \right)$
+            
+            \vspace{1ex}
+            
+            \State ${k}_{pub}$ := $(t, \rho)$
+            \State ${k}_{priv}$ := $s$
+            
+            \vspace{1ex}
+            
+            \State \Return $\left( {k}_{pub}, {k}_{priv} \right)$
+        \end{algorithmic}
+    \end{algorithm}
+
+
+    \newpage
+
+    
+    \begin{algorithm}
+        \caption{\texorpdfstring{\texttt{CRYSTALS}\textsubscript{\texttt{Kyber}}\texttt{.Asym\_Enc}\texttt{.Enc}(${k}_{pub} = (t, \rho)$, $m$)}\/: Asymmetric\\ \phantom{|..................................................................................................}Encryption}
+        \label{subrou:crystals-kyber-asymmetric-encryption-enc}
+        
+        \textbf{Input:} $\left( n, q, k, \eta, {k}_{pub}, m \right)$\\
+        \textbf{Output:} $ ct $
+        
+        \begin{algorithmic}[1]
+            \Require $n = 256$, $q = 7681$, $k > 0$, $\eta > 0$
+            \Ensure $n \in \mathbb{Z},\ q \in \mathbb{Z},\ k \in \mathbb{Z},\ \eta \in \mathbb{Z},\ m \in \mathcal{M}$
+        
+            \vspace{2ex}
+            
+            \State $r \gets { \{ 0 , 1 \} }^{n} = { \{ 0 , 1 \} }^{256}$
+            \State $t$ := \texttt{Decompress}\textsubscript{$q$}$(t, {d}_{t})$
+            \State $A \sim {\mathcal{R}}_{q}^{( k \times k )} = {\mathcal{R}}_{7681}^{( k \times k )}$ := \texttt{Sample}($\rho$)
+            \State $(r, {e}_{1}, {e}_{2}) \sim \left( {\beta}_{\eta}^{k} \times {\beta}_{\eta}^{k} \times {\beta}_{\eta} \right)$ := \texttt{Sample}($r$)
+
+            \vspace{1ex}
+            
+            \State $u$ := \texttt{Decompress}\textsubscript{$q$}$({A}^{T} \cdot r + {e}_{1}, {d}_{u})$
+            \State $u$ := \texttt{Decompress}\textsubscript{$q$}$({t}^{T} \cdot r + {e}_{2} + \left\lceil \frac{q}{2} \right\rfloor \cdot m, {d}_{v})$
+            
+            \vspace{1ex}
+
+            \State $ct$ := $(u, v)$
+            
+            \vspace{1ex}
+            
+            \State \Return $ct$
+        \end{algorithmic}
+    \end{algorithm}
+
+    \vspace{-6ex}
+    \begin{algorithm}
+        \caption{\texorpdfstring{\texttt{CRYSTALS}\textsubscript{\texttt{Kyber}}\texttt{.Asym\_Enc}\\ \phantom{................................................}\texttt{.Dec}(${k}_{priv} = s$, $ct = (u, v)$)}\/: Asymmetric\\ \phantom{.............................................................................................}Decryption}
+        \label{subrou:crystals-kyber-asymmetric-encryption-dec}
+        
+        \textbf{Input:} $\left( n, q, k, \eta, {k}_{priv}, ct \right)$\\
+        \textbf{Output:} $ pt $
+  
+        \begin{algorithmic}[1]
+            \Require $n = 256$, $q = 7681$, $k > 0$, $\eta > 0$
+            \Ensure $n \in \mathbb{Z},\ q \in \mathbb{Z},\ k \in \mathbb{Z},\ \eta \in \mathbb{Z}$
+            
+            \vspace{2ex}
+            
+            \State $u$ := \texttt{Decompress}\textsubscript{$q$}$(u, {d}_{u})$
+            \State $v$ := \texttt{Decompress}\textsubscript{$q$}$(v, {d}_{v})$
+            
+            \vspace{1ex}
+
+            \State $pt$ := \texttt{Compress}\textsubscript{$q$}$(v - {s}^{T} \cdot u, 1)$
+            
+            \vspace{1ex}
+            
+            \State \Return $pt$
+        \end{algorithmic}
+    \end{algorithm}
+    \vspace{-5ex}
+
+    \paragraph{\textbf{Correctness:}} In order to show the correctness of the \texorpdfstring{\texttt{CRYSTALS}\textsubscript{\texttt{Kyber}}}\/ asymmetric encryption algorithm \texttt{Asym\_Enc}, we need to demonstrate that the same has a negligible decryption error $\delta$, concluding that the algorithm is $(1 - \delta)$-correct.
+
+    \paragraph{\textbf{Theorem 1:}} Let $k$ be a positive integer parameter. Also, let $s$, $e$, $r$, ${e}_{1}$, ${e}_{2}$ be\break random variables that have the same probability distribution as in the previously\break defined sub-routines \texttt{Key\_Gen} and \texttt{Enc} from \texorpdfstring{\texttt{CRYSTALS}\textsubscript{\texttt{Kyber}}}\/ asymmetric\break encryption algorithm \texttt{Asym\_Enc}. Then, let ${c}_{t} \gets {\psi}_{{d}_{t}}^{k}$, ${c}_{u} \gets {\psi}_{{d}_{u}}^{k}$, and ${c}_{v} \gets {\psi}_{{d}_{v}}$, be distributed according to the probability distribution $\psi$ defined as follows:
+
+    \begin{itemize}
+        
+        \item Let ${\psi}_{d}^{k}$ be the following probability distribution over polynomial ring $\mathcal{R}$:
+        
+        \begin{enumerate}
+            \item Choose uniformly-random $y \gets {\mathcal{R}}^{k}$;
+            \item \Return $(\ y - \mathrm{\texttt{Decompress}}\textsubscript{q}( \mathrm{\texttt{Compress}}\textsubscript{q}(y, d), d )\ ) \mod \pm q$.\\ \textcolor{red}{TODO - confirmar mod com superscript +/- na pag 5 do paper ???}
+        \end{enumerate}
+
+        \item Denote the decryption error $\delta$ as follows:
+        \begin{itemize}
+            \item $\delta = \mathrm{Pr}\Big[\ { \big|\big|\ {e}^{T} \cdot r + {e}_{2} + {c}_{v} - {s}^{T} \cdot {e}_{1} + {c}_{t}^{T} \cdot r - {s}^{T} \cdot {c}_{u}\ \big|\big| }_{\infty} \geq \left\lceil \frac{q}{4} \right\rfloor \ \Big]$
+        \end{itemize}
+
+        \item Then, we can conclude that \texorpdfstring{\texttt{CRYSTALS}\textsubscript{\texttt{Kyber}}\texttt{.Asym\_Enc}}\/ is $( 1 - \delta )$-correct.
+        
+    \end{itemize}
+    
+    \newpage
+
+
+    \subsubsection{CRYSTALS-Kyber IND-CCA Key Encapsulation Method}
+    \label{subsubsec:crystals-kyber-ind-cca-key-encapsulation-method}
+
+    First, let $G: { \{ 0, 1 \} }^{*} \mapsto { \{ 0, 1 \} }^{ ( 2 \times 256 ) }$ and $H: { \{ 0, 1 \} }^{*} \mapsto { \{ 0, 1 \} }^{ 256 }$ be\break cryptographic hash functions. Then, consider the public-key asymmetric KEM denoted by \texorpdfstring{\texttt{CRYSTALS}\textsubscript{\texttt{Kyber}}\texttt{.KEM} = \big(\texttt{Key\_Gen}, \texttt{Encaps}, \texttt{Decaps}\big)}\/, where \texttt{Key\_Gen} is very similar to the sub-routine defined previously in \texorpdfstring{\texttt{CRYSTALS}\textsubscript{\texttt{Kyber}}\texttt{.Asym\_Enc}}, with the difference that ${k}_{priv}$ also contains ${k}_{pub} = (t, \rho)$ and a secret random\break value $z$ with $256$ bits as well. We obtain this asymmetric KEM \texorpdfstring{\texttt{CRYSTALS}\textsubscript{\texttt{Kyber}}\texttt{.KEM}}\/\break algorithm by applying a KEM variant with ``implicit rejection'' of the\break Fujisaki-Okamoto transform to the \texorpdfstring{\texttt{CRYSTALS}\textsubscript{\texttt{Kyber}}\texttt{.Asym\_Enc}}\/ algorithm. The\break sub-routine \texorpdfstring{\texttt{CRYSTALS}\textsubscript{\texttt{Kyber}}\texttt{.KEM}\texttt{.Decaps}}\/ never returns $\bot$ (i.e., \textit{absurdum}).\break Instead, in the case of re-encryption failure, a pseudo-random key $K$ := $H(z, ct)$ is returned, where $z$ is a random secret seed. Then, in order to properly define the \texorpdfstring{\texttt{CRYSTALS}\textsubscript{\texttt{Kyber}}}\/ KEM algorithm \texttt{KEM}, the sub-routines \texttt{Key\_Gen}, \texttt{Encaps}, and \texttt{Decaps} are defined as follows:
+
+    \vspace{-3.4ex}
+    \begin{algorithm}
+        \caption{\texorpdfstring{\texttt{CRYSTALS}\textsubscript{\texttt{Kyber}}\texttt{.KEM}\texttt{.Encaps}(${k}_{pub} = (t, \rho)$)}\/: Key Encapsulation}
+        \label{subrou:crystals-kyber-asymmetric-encryption-encaps}
+        
+        \textbf{Input:} $\left( n, q, k, \eta, {k}_{priv}, m \right)$\\
+        \textbf{Output:} $ encaps $
+  
+        \begin{algorithmic}[1]
+            \Require $n = 256$, $q = 7681$, $k > 0$
+            \Ensure $n \in \mathbb{Z},\ q \in \mathbb{Z},\ k \in \mathbb{Z},\ \eta \in \mathbb{Z}$
+            
+            \vspace{2ex}
+            
+            \State $m \gets { \{ 0 , 1 \} }^{n} = { \{ 0 , 1 \} }^{256}$
+            \State $\big( \hat{K}, r \big)$ := $G( H( {k}_{pub} ) , m )$
+            
+            \vspace{1ex}
+
+            \State $\left( u, v \right)$ := \texorpdfstring{\texttt{CRYSTALS}\textsubscript{\texttt{Kyber}}\texttt{.Asym\_Enc}\texttt{.Enc}}\/(${k}_{pub}$, $m$, $r$)
+            
+            \vspace{1ex}
+
+            \State $ct$ := $(u, v)$
+            \State $K$ := $H(\hat{K}, H(ct))$
+            
+            \vspace{1ex}
+
+            \State $encaps$ := $(ct, K)$
+            
+            \vspace{1ex}
+            
+            \State \Return $encaps$
+        \end{algorithmic}
+    \end{algorithm}
+
+    \newpage 
+    
+    \begin{algorithm}
+        \caption{\texorpdfstring{\texttt{CRYSTALS}\textsubscript{\texttt{Kyber}}\texttt{.KEM}\texttt{.Decaps}(${k}_{priv} = (s, z, t, \rho)$, $ct = (u, v)$)}\/:\\ \phantom{.............................................................................................}Key Decapsulation}
+        \label{subrou:crystals-kyber-asymmetric-encryption-decaps}
+        
+        \textbf{Input:} $\left( n, q, k, \eta, {k}_{priv}, m \right)$\\
+        \textbf{Output:} $ encapsulation $
+  
+        \begin{algorithmic}[1]
+            \Require $n = 256$, $q = 7681$, $k > 0$
+            \Ensure $n \in \mathbb{Z},\ q \in \mathbb{Z},\ k \in \mathbb{Z},\ \eta \in \mathbb{Z}$
+            
+            \vspace{2ex}
+            
+            \State $m'$ := \texorpdfstring{\texttt{CRYSTALS}\textsubscript{\texttt{Kyber}}\texttt{.Asym\_Enc}\texttt{.Dec}}\/($s$, $ct$)
+            \State $\big( \hat{K'}, r' \big)$ := $G( H( {k}_{pub} ) , m' )$
+            
+            \vspace{1ex}
+
+            \State $\left( u', v' \right)$ := \texorpdfstring{\texttt{CRYSTALS}\textsubscript{\texttt{Kyber}}\texttt{.Asym\_Enc}\texttt{.Enc}}\/($(t, \rho)$, $m'$; $r'$)
+            
+            \vspace{1ex}
+
+            \If{$(u', v') = (u, v)$}
+                \State $K$ := $H(\hat{K}', H(ct))$
+            \Else
+                \State $K$ := $H(z, H(ct))$
+            \EndIf
+            
+            \vspace{1ex}
+            
+            \State \Return $K$
+        \end{algorithmic}
+    \end{algorithm}
+
+    \newpage
+    
+    \paragraph{\textbf{Correctness:}} If the \texorpdfstring{\texttt{CRYSTALS}\textsubscript{\texttt{Kyber}}\texttt{.Asym\_Enc}}\/ algorithm is $( 1 - \delta )$-correct and the cryptographic hash function $G$ is a random oracle, then the \texorpdfstring{\texttt{CRYSTALS}\textsubscript{\texttt{Kyber}}\texttt{.KEM}}\/ algorithm is also $( 1 - \delta )$-correct.
+    
+    \paragraph{\textbf{Security:}} The following concrete security statement proves the security of the \texorpdfstring{\texttt{CRYSTALS}\textsubscript{\texttt{Kyber}}\texttt{.Asym\_Enc}}\/ algorithm when we model the cryptographic hash\break functions $G$ and $H$ as random oracles. Namely, for the concrete security bounds, the KEM variant of the previously mentioned Fujisaki-Okomoto transform is considered, and a non-zero correctness (or decryption) error $\delta$ is also assumed.
+
+    \paragraph{\textbf{Theorem 3:}} For any classical adversary \texttt{A} that makes at most ${q}_{RO}$ many queries to the random oracles $G$ and $H$, and ${q}_{DO}$ queries to the decryption oracle, there is another classical adversary \texttt{B} such that:
+
+    \vspace{-3.4ex}
+    $$ {\text{\textbf{Adv}}}_{{\text{\texttt{CRYSTALS}\textsubscript{\texttt{Kyber}}\texttt{.KEM}}}}^{\text{CCA}}\text{(\texttt{A})} \leq 3 \cdot {\text{\textbf{Adv}}}_{{\text{\texttt{CRYSTALS}\textsubscript{\texttt{Kyber}}\texttt{.Asym\_Enc}}}}^{\text{CPA}}\text{(\texttt{B})} + {q}_{RO} \cdot \delta + \frac{ ( 3 \cdot {q}_{RO} ) }{ {2}^{256} } $$
+
+    \noindent As for security in the Quantum Random Oracle Model (QROM), we can use the fact that \texorpdfstring{\texttt{CRYSTALS}\textsubscript{\texttt{Kyber}}\texttt{.Asym\_Enc}}\/ algorithm is ONE-WAY CPA secure and \textit{sparse pseudo-random} to prove that \texorpdfstring{\texttt{CRYSTALS}\textsubscript{\texttt{Kyber}}\texttt{.KEM}}\/ algorithm is INC-CCA secure. Namely, sparse pseudo-randomness is a slightly stronger security notation than the IND-CPA security and essentially states the following properties:
+
+    \begin{enumerate}
+        \item A properly generated ciphertext is \textit{pseudo-random} (i.e., it is computationally indistinguishable from a random high-entropy binary string).
+        \item A random binary string is, with high probability, not a properly generated ciphertext.
+    \end{enumerate}
+
+
+    \noindent The proof of Theorem 2 shows that the \texorpdfstring{\texttt{CRYSTALS}\textsubscript{\texttt{Kyber}}\texttt{.Asym\_Enc}}\/' algorithm (i.e., the \texorpdfstring{\texttt{CRYSTALS}\textsubscript{\texttt{Kyber}}\texttt{.Asym\_Enc}}\/ algorithm variant without compressing the vector $t$) is tightly pseudo-random under the Module-LWE computational hardness assumption. Concretely, the pseudo-randomness advantage is bounded by:
+
+    $$ {\text{\textbf{Adv}}}_{{\text{\texttt{CRYSTALS}\textsubscript{\texttt{Kyber}}\texttt{.Asym\_Enc}'}}}^{\text{PR}}\text{(\texttt{A})} \leq 2 \cdot {\text{\textbf{Adv}}}_{ ( k + 1, k, \eta ) }^{\text{MLWE}}\text{(\texttt{B})} $$
+
+    \vspace{2ex}
+    \noindent Now, we can argue again that the same mathematical bound holds for\break the \texorpdfstring{\texttt{CRYSTALS}\textsubscript{\texttt{Kyber}}\texttt{.Asym\_Enc}}\/ algorithm. Namely, the \texorpdfstring{\texttt{CRYSTALS}\textsubscript{\texttt{Kyber}}\texttt{.Asym\_Enc}}\/\break algorithm has its sparseness property trivially fulfilled since the set of\break properly generated ciphertexts is a sparse subset of the original ciphertext space $\left( { \{ 0, 1 \} }^{ ( 256 \cdot k \cdot {d}_{u}) } \times { \{ 0, 1 \} }^{{d}_{v}} \right)$.\
+
+    \noindent Then, we can also provide the following concrete security statement in the QROM, considering a quantum adversary, for a correctness (decryption) error $\delta$.
+
+    \paragraph{\textbf{Theorem 4:}} For any quantum adversary \texttt{A} that makes at most ${q}_{RO}$ many queries to the quantum random oracles $G$ and $H$, and at most ${q}_{DO}$ (classical) queries to the decryption oracle, there exists a quantum adversary \texttt{B} such that:
+
+    $$ {\text{\textbf{Adv}}}_{{\text{\texttt{CRYSTALS}\textsubscript{\texttt{Kyber}}\texttt{.KEM}}}}^{\text{CCA}}\text{(\texttt{A})} \leq 8 \cdot {q}_{RO}^{2} \cdot \delta + 4 \cdot {q}_{RO} \cdot \sqrt{ {\text{\textbf{Adv}}}_{{\text{\texttt{CRYSTALS}\textsubscript{\texttt{Kyber}}\texttt{.Asym\_Enc}}}}^{\text{PR}}\text{(\texttt{B})} } $$
+
+    \noindent Unfortunately, the above security bound is non-tight, and we can only use it as an asymptotic indication of the CCA security of the \texorpdfstring{\texttt{CRYSTALS}\textsubscript{\texttt{Kyber}}\texttt{.KEM}}\/ algorithm in QROM. However, we can derive a tight security bound in the QROM from a non-standard security assumption, namely that a deterministic version of \texorpdfstring{\texttt{CRYSTALS}\textsubscript{\texttt{Kyber}}\texttt{.Asym\_Enc}}\/ algorithm is sparse pseudo-random in the QROM. The \texorpdfstring{\texttt{CRYSTALS}\textsubscript{\texttt{Kyber}}\texttt{.Asym\_Enc}}\/ algorithm is already deterministic, but the randomness vector $r$ used in the encryption process is derived deterministically from the message m by performing $r := G(m)$. In the Classical Random Oracle Model (CROM), this assumption is tight and implied by the IND-CPA security of \texorpdfstring{\texttt{CRYSTALS}\textsubscript{\texttt{Kyber}}\texttt{.Asym\_Enc}}\/ algorithm, but the security reduction in the QROM is non-tight. For this reason, we need to have the term ${q}_{RO} \cdot \sqrt{ {\text{\textbf{Adv}}}_{{\text{\texttt{CRYSTALS}\textsubscript{\texttt{Kyber}}\texttt{.Asym\_Enc}}}}^{\text{PR}}\text{(\texttt{B})} }$ in Theorem 4).
+
+
+    \paragraph{\textbf{Hashing ${k}_{pub}$ into $\hat{K}$:}} 
+
+    The transformation used in the \texorpdfstring{\texttt{CRYSTALS}\textsubscript{\texttt{Kyber}}\texttt{.Asym\_Enc}}\/ algorithm is essentially the Fujisaki–Okamoto transform with a small\break adjustment. Most specifically, we need to hash the public key ${k}_{pub}$ by computing\break $\hat{K}$ := $H( {k}_{pub} )$. Namely, this adjustment has two effects. First, this adjustment\break makes the \texorpdfstring{\texttt{CRYSTALS}\textsubscript{\texttt{Kyber}}\texttt{.KEM}}\/ algorithm contributory since the final shared key $K$ does not depend only on the input of one of the two parties involved.\break Second, this adjustment also offers multi-target protection. In particular,\break consider an attacker who searches through many $m$ to find one particular message\break that produces a decryption failure with a considerable probability. Such\break decryption failure of a legitimate ciphertext would leak some information about the secret key. In the pre-quantum context, the negligible decryption error delta guarantees that it is not a practical attack. In the post-quantum context, an attacker can use Grover's algorithm to speed up the search for that message $m$. However, the attacker will have difficulty encoding such message $m$, which may produce a decryption failure with a considerable probability in Grover's quantum\break oracle. In particular, this problem is equivalent to identifying noise vectors that likely have a large inner product with the tuple of vectors $(s, e)$. Eventually,\break the best strategy is to search for a message m that produces noise vectors with a large norm. This attack probably does not offer any better performance than a brute-force attack performed by Grover's algorithm for searching the shared key $K$ with 256 bits. However, applying a cryptographic hash function and transforming ${k}_{pub}$ into $\hat{K}$ ensures that an attacker would not be able to use pre-computed values (i.e., pre-images) of messages $m$ against multiple targets.
+
+    
+    
+    \subsubsection{CRYSTALS-Kyber Key Exchange Protocol}
+    \label{subsubsec:crystals-kyber-key-exchange-protocol}
+
+    Let \texorpdfstring{\texttt{CRYSTALS}\textsubscript{\texttt{Kyber}}\texttt{.KEM} = \big(\texttt{Key\_Gen}, \texttt{Encaps}, \texttt{Decaps}\big)}\/ be the IND-CCA secure KEM algorithm described before. Now, we denote the Key Exchange protocol\break as \texorpdfstring{\texttt{CRYSTALS}\textsubscript{\texttt{Kyber}}\texttt{.KE}}\/, and we obtain it as a direct cryptographic application of the \texorpdfstring{\texttt{CRYSTALS}\textsubscript{\texttt{Kyber}}\texttt{.KEM}}\/ algorithm. In Key Exchange protocols using a KEM algorithm, a cryptographic hash function is commonly applied to all messages each participant sends and receives in order to compose the final secret key. Namely, we compute a cryptographic hash function on the public key ${k}_{pub}$ to obtain the pre-shared key $\hat{K}$, and the ciphertext is then cryptographically hashed into the final secret key $K$. Therefore, the shared secret key $K$ obtained during the Key Exchange protocol already includes these exchanged messages of each participant. We illustrate the steps of the \texorpdfstring{\texttt{CRYSTALS}\textsubscript{\texttt{Kyber}}\texttt{.KE}}\/ algorithm in Fig. \ref{fig:crystals-kyber-key-exchange-protocol-schematic}:
+
+    \vspace{-3ex}
+    \begin{figure}[!ht]
+        \centering
+        \captionsetup{justification=centering}
+        \includegraphics[width=\textwidth]{figures/sections/section-3/crystals-kyber-key-exchange-protocol-schematic.pdf}
+        \caption{Schematic of the CRYSTALS-Kyber Key Exchange protocol,\\ with the respective Time Events and Messages.}
+        \label{fig:crystals-kyber-key-exchange-protocol-schematic}
+    \end{figure}
+
+    
+    \subsection{CRYSTALS-Dilithium}
+    \label{subsec:crystals-dilithium}
+
+    CRYSTALS-Dilithium is a (classical) post-quantum digital signature scheme developed to be closely related and complementary to the CRYSTALS-Kyber asymmetric cryptosystem previously presented, being another component of CRYSTALS. Therefore, this digital signature scheme is also quantum-resistant and intended to be computationally secure against future cryptanalytic attacks performed by future quantum computers with considerable processing power, also ensuring security in the classical contexts. This cryptographic primitive also uses the computational hardness of lattice mathematical problems over module lattices as its trapdoor function and has most of its security notions based on it. For this reason, it is considered strongly secure under a Chosen-Message Attack (CMA). Its security notion also means that an adversary with access to a signing\break oracle cannot produce a signature of a message whose signature he has not yet seen nor produce a different signature of a specific message he already saw signed. Moreover, CRYSTALS-Dilithium is one of the first selected standards for digital signatures in the NIST Post-Quantum Cryptography Standardization project, together with FAst-fourier Lattice-based Compact signatures Over Ntru (FALCON) and Stateless Practical Hash-based Incredibly Nice Cryptographic Signatures${}^{+}$ (SPHINCS${}^{+}$) to replace the currently used (classical) pre-quantum digital signatures that are insecure against to attacks from quantum computers.
+
+    
+    \vspace{-3ex}
+    \begin{figure}[!ht]
+        \centering
+        \captionsetup{justification=centering}
+        \includegraphics[width=0.6\textwidth]{figures/sections/section-3/crystals-dilithium.pdf}
+        \caption{Logotype of CRYSTALS-Dilithium cryptographic primitive.}
+        \label{fig:crystals-dilithium-logo}
+    \end{figure}
+
+
+    \noindent The core design of the primitive CRYSTALS-Dilithium is based mainly on a cryptographic technique known as ``Fiat-Shamir with Aborts'', proposed by Vadim Lyubashevsky in 2009. This technique uses rejection sampling in order to make lattice-based Fiat-Shamir digital signature schemes compact and secure.\break It is possible to create digital signature schemes applying this approach, and with small signature sizes, based on the hardness assumption of the mathematical\break problem used in the NTRU lattice-based asymmetric cryptosystem that crucially\break uses random samplings from Gaussian probability distributions. However, since it is hard to implement samplings from the Gaussian probability distribution, the CRYSTALS-Dilithium digital signature scheme uses only the uniform probability\break distribution to obtain those random samplings. This cryptographic primitive\break improved the previous most efficient digital signature scheme that only uses the uniform probability distribution, proposed by Shi Bai and Steven Galbraith in 2013. Namely, CRYSTALS-Dilithium digital signature scheme uses a new\break technique that shrinks the size of the public key by more than half. This digital\break signature scheme has the smallest public key and signature sizes of any known lattice-based digital signature scheme that only uses a uniform probability\break distribution for the random samplings. However, it may have larger sizes for the signature, public key, and private key when we compare it to the other digital signature schemes NIST also selected as new standards in the NIST\break Post-Quantum Cryptography Standardization project. Namely, it has larger public and private keys than SPHINCS${}^{+}$ hash-based digital signature scheme in spite of having shorter signatures. Additionally, the FALCON lattice-based\break digital signature scheme has smaller sizes for the signature, public key, and\break private key than the CRYSTALS-Dilithium digital signature scheme. However, the former uses a Gaussian probability distribution for the random samplings.
+
+
+    \subsubsection{CRYSTALS-Dilithium Digital Signature}
+    \label{subsubsec:crystals-dilithium-digital-signature}
+
+    The CRYSTALS-Dilithium digital signature scheme uses a pseudo-randomness in the signing procedure generated using the well-known cryptographic hash function Secure Hash Algorithm and KECCAK - 256 (SHAKE-256) from the Secure Hash Algorithm - 3 (SHA-3) family as a deterministic function of the message to be signed and a small secret key. Since most of the signing procedure may need to be repeated several times in a computational loop until we build a final signature, a counter is also appended to the input of the SHAKE-256 cryptographic hash function to make its output differ with each signing attempt of the same message $m$. Because each (possibly long) message $m$ may require several iterations to be signed, we compute an initial hash digest of the message $m$ using a collision-resistant hash function. Then, we use the respective hash digest as the input of the cryptographic hash function in the computational loop throughout the signing procedure (see steps 2 and 10 of the sub-routine \ref{subrou:crystals-dilithium-sign}).
+
+    Additionally, one of the primary design improvements offered by the\break CRYSTALS-Dilithium digital signature scheme over the previous ones is the fact that the size of the public key is approximately halved, at the expense of little longer signatures with fewer than a hundred extra bytes. In order to perform this size reduction, the key generation sub-routine outputs ${t}_{1}$ := \texttt{Power2Round}\textsubscript{$q$}$\left( t, {d}_{t} \right)$ as the public key. Additionally, one of the primary design improvements of the CRYSTALS-Dilithium digital signature scheme over the previous ones is the fact that the size of the public key is approximately halved, at the expense of little longer signatures with fewer than a hundred extra bytes. In order to perform this size reduction, the key generation sub-routine outputs ${t}_{1}$ := \texttt{Power2Round}\textsubscript{$q$}$\left( t, {d}_{t} \right)$ as the public key. From this size reduction, the public key requires $\lceil \log{(q)} \rceil - {d}_{t}$ bits per coefficient of the ring polynomial. In the instantiations proposed by the authors, we assume $q \approx {2}^{23}$ and ${d}_{t} = 13$, which means that instead of 23 bits in each coefficient of the public key, there is instead only 10 bits (i.e., $\lceil \log{(q)} \rceil - {d}_{t} = \lceil \log{ ({2}^{23}) } \rceil - 13 = 23 - 13 = 10$), what results in a compression of the size of the public key generated (see the step 6 of the sub-routine \ref{subrou:crystals-dilithium-key-gen}).
+
+    The main complication of not having the entire vector $t$ in the public key is that it is no longer possible to exactly compute ${w}_{1}$ in the signature verification sub-routine. The signature verification will need the high-order bits of $A \cdot z - c \cdot t$ to compute this, but it can only compute $A \cdot z - c \cdot {t}_{1} \cdot {2}^{{d}_{t}} = A \cdot z - c \cdot t + c \cdot {t}_{0}$. Even though the high-order bits of $c \cdot {t}_{0}$ are $0$, its presence in the sum creates ``carry'' bits which may affect the higher bits. The signer of the message thus sends these ``carries'' as a hint to the verifier of the signature. Heuristically, based on the parameter choices proposed by the authors, there should not be more than $\omega$ positions in which a ``carry'' is caused. Therefore, the signer of the message simply sends the positions in which these ``carries'' occur, which allows the verifier to compute the high order bits of $A \cdot z - c \cdot t$ (these are the extra bytes in CRYSTALS-Dilithium compared to other previous similar digital signatures).
+
+    In order to keep the size of the public and private keys small, both the Sign and Verify procedures begin with extracting the matrix $A$ (or more accurately, its NTT domain representation $\hat{A}$) from the pseudo-random seed $\rho$. If storage space is not a factor, then the NTT domain representation matrix $\hat{A}$ can be pre-computed and be part of the public/private key. The signer of the message $m$ can additionally pre-compute the NTT domain representations of $s$, $e$, and ${t}_{0}$ to slightly speed up the signing sub-routine. On the other hand, if the signer of the message m wants to store a private key small as possible, he only needs to store a secret seed $\zeta$ with $32$ bytes, which is used to generate the randomness to create $\rho$, $K$, $s$, and $e$, in the key generation sub-routine. Furthermore, we can also keep the memory for intermediate computations low by only keeping the parts of the NTT domain representation that we are currently working with.
+
+    We can use the CRYSTALS-Dilithium cryptographic primitive to produce deterministic or randomized digital signatures. The former always gives the same digital signature output $\sigma$ for a particular message since we derive the random seed $\rho'$ from the hashed message $\mu$ and a key $K$. The latter does not produce the same digital signature output $\sigma$ for a particular message since we choose the random seed $\rho'$ completely at random (see the step 5 of the sub-routine \ref{subrou:crystals-dilithium-sign}).
+
+    In situations where some side channels that exploit determinism are possible, we may use the randomized variant of this digital signature scheme. Another case where we may want to avoid determinism is when the signer party does not wish to reveal the content of the message which that party is signing. When the digital signature scheme is deterministic, despite not happening timing leakage of the secret key, there is a timing leakage of the hashed message $\mu$. For this case, and since we derive the randomness of this digital signature from the hashed message $\mu$, the number of aborts for a particular message will always be the same.
+
+    \noindent To prove the correctness and security of this digital signature scheme, we need to define a set of lemmas that highlight the properties of its supporting algorithms.
+
+    \paragraph{\textbf{Lemma 1:}} Suppose that $q$ and $\alpha$ are positive integer numbers, where $q > 2 \cdot \alpha$, $q \equiv 1$ (mod $\alpha$), and $\alpha$ is an even number. Let $r$ and $z$ be vectors containing elements in ${R}_{q}$ where ${||z||}_{\infty} \leq \frac{\alpha}{2}$, and let $h$, $h'$ be vectors of bits. Then, the \texttt{HighBits}${}_{q}$, \texttt{MakeHint}${}_{q}$, and \texttt{UseHint}${}_{q}$ algorithms satisfy the following properties: 
+    \begin{enumerate}
+        \item \texttt{UseHint}${}_{q}$(\texttt{MakeHint}${}_{q}$($z$, $r$, $\alpha$), $r$, $\alpha$) = \texttt{HighBits}${}_{q}$($r + z$, $\alpha$);
+        \item Let ${v}_{1}$ = \texttt{UseHint}${}_{q}$($h$, $r$, $\alpha$). Then, we also verify that ${||r - {v}_{1} \cdot \alpha||}_{\infty} \leq \alpha + 1$. Furthermore, if the Hamming Weight of the vector $h$ is equal to $\omega$, then all except at most $w$ coefficients of the result $r - {v}_{1} \cdot \alpha$ will have magnitude at most $\frac{\alpha}{2}$ after centered reduction modulo $q$ using modular multiplications;
+        \item For any vectors $h$ and $h'$, if we verify \texttt{UseHint}${}_{q}$($h, r, \alpha$) = \texttt{UseHint}${}_{q}$($h', r, \alpha$), then we can conclude the binary vectors $h$ and $h'$ are equal (i.e., $h$ = $h'$).
+    \end{enumerate}
+
+    \paragraph{\textbf{Lemma 2:}} If we verify that ${||s||}_{\infty} \leq \beta$ and ${||\mathrm{\texttt{LowBits}}{}_{q}(r, \alpha)||}_{\infty} < \frac{\alpha}{2} - \beta$, then we can also verify that the equality \texttt{HighBits}${}_{q}$($r, \alpha$) = \texttt{HighBits}${}_{q}$($r + s, \alpha$) holds.
+
+    \paragraph{\textbf{Lemma 3:}} Let $({r}_{1}, {r}_{0})$ = \texttt{Decompose}${}_{q}$($r, \alpha$), $({w}_{1}, {w}_{0})$ = \texttt{Decompose}${}_{q}$($r + s, \alpha$), and ${||s||}_{\infty} \leq \beta$. Then, ${||s + {r}_{0}||}_{\infty} < \frac{\alpha}{2} - \beta \Longleftrightarrow {w}_{1} = {r}_{1} \wedge {||{w}_{0}||}_{\infty} < \frac{\alpha}{2} - \beta$ holds.
+
+    \vspace{5ex}
+
+    \noindent Regarding the details of the correctness property of the CRYSTALS-Dilithium digital signature scheme, we have the following enumerated mathematical proof:
+
+    \begin{itemize}
+        \item If ${\big|\big| c \cdot {t}_{0} \big|\big|}_{\infty} < {\gamma}_{2}$, then by Lemma 1 introduced before, we know that \texttt{UseHint}${}_{q}$($h, w - c \cdot e + c \cdot {t}_{0}, 2 \cdot {\gamma}_{2}$) = \texttt{HighBits}${}_{q}$($w - c \cdot e, 2 \cdot {\gamma}_{2}$);
+        \item Since we verify that the results $w$ = $A \cdot y$ and $t = A \cdot s + e$ hold, we have that $w - c \cdot e$ = $A \cdot y - c \cdot e$ = $A \cdot (z - c \cdot s) - c \cdot e$ = $A \cdot z - c \cdot t$ holds, and we also verify that the equality $w - c \cdot e + c \cdot {t}_{0}$ = $A \cdot z - c \cdot {t}_{1} \cdot {2}^{{d}_{t}}$ is valid.
+        \item Then, the party that verifies if the digital signature is valid, is also able to compute \texttt{UseHint}${}_{q}$($h, A \cdot z - c \cdot {t}_{1} \cdot {2}^{{d}_{t}}, 2 \cdot {\gamma}_{2}$) = \texttt{HighBits}${}_{q}$($w - c \cdot e, 2 \cdot {\gamma}_{2}$);
+        \item Furthermore, because we set $\beta$ such we verify that ${||c \cdot e||}_{\infty} \leq \beta$ and the signer party checks that \texttt{LowBits}${}_{q}$$(w - c \cdot e$, $2 \cdot {\gamma}_{2}) < {\gamma}_{2} - \beta$ (see the steps 13 and 14 of the sub-routine \ref{subrou:crystals-dilithium-sign}). Then, Lemma 2 implies the following equalities:
+        \begin{equation*} \label{eq1}
+            \begin{split}
+                \mathrm{\texttt{HighBits}}{}_{q}(w - c \cdot e, 2 \cdot {\gamma}_{2}) & = \mathrm{\texttt{HighBits}}{}_{q}(w - c \cdot e + c \cdot e, 2 \cdot {\gamma}_{2})\\
+                 & = \mathrm{\texttt{HighBits}}{}_{q}(w , 2 \cdot {\gamma}_{2}) = {w}_{1}
+            \end{split}
+        \end{equation*}
+        \item Therefore, the vector ${w}_{1}'$ computed by the verifier party to be the input of the hash function is equal to the vector ${w}_{1}$ calculated by the signer party (see the step 4 and 5 of the sub-routine \ref{subrou:crystals-dilithium-verify}, as well as the step 9 of\break the sub-routine \ref{subrou:crystals-dilithium-sign}). And thus, the verification procedure will always accept the digital signature in this case, verifying the correctness property.
+    \end{itemize}
+        
+    \begin{algorithm}
+        \caption{\texorpdfstring{\texttt{CRYSTALS}\textsubscript{\texttt{Dilithium}}\texttt{.Key\_Gen}()}\/: Key Generation}
+        \label{subrou:crystals-dilithium-key-gen}
+        
+        \textbf{Input:} $\left( n, q, k, \eta, {k}_{priv}, m \right)$\\
+        \textbf{Output:} $ ( {k}_{pub}, {k}_{priv} ) $
+    
+        \begin{algorithmic}[1]
+            \Require $n = 256$, $q = 7681$, $k > 0$
+            \Ensure $n \in \mathbb{Z},\ q \in \mathbb{Z},\ k \in \mathbb{Z},\ \eta \in \mathbb{Z}$
+            
+            \vspace{2ex}
+            
+            \State $\zeta \gets { \{ 0 , 1 \} }^{n} = { \{ 0 , 1 \} }^{256}$
+            \State $(\rho, \rho', K) \sim \left(\ { \{ 0 , 1 \} }^{n} \times { \{ 0 , 1 \} }^{ (2 \cdot n) } \times { \{ 0 , 1 \} }^{n}\ \right) = $
+            \Statex \hspace{15ex} $ = \left(\ { \{ 0 , 1 \} }^{256} \times { \{ 0 , 1 \} }^{512} \times { \{ 0 , 1 \} }^{256}\ \right)$ := $H( \zeta )$
+            \State $A \sim {\mathcal{R}}_{q}^{( k \times \ell )} = {\mathcal{R}}_{7681}^{( k \times \ell )}$ := \texttt{Sample}($\rho$)
+            \State $(s, e) \sim \left( {\upsilon}_{\eta}^{\ell} \times {\upsilon}_{\eta}^{k} \right)$ := \texttt{Sample}($\rho'$)
+            \State $t$ := $A \cdot s + e$
+            \State $({t}_{1}, {t}_{0})$ := \texttt{Compress}\textsubscript{$q$}$\left( t, {d}_{t} \right)$ = \texttt{Power2Round}\textsubscript{$q$}$\left( t, {d}_{t} \right)$
+            \State ${t}_{r} \sim { \{ 0 , 1 \} }^{n} = { \{ 0 , 1 \} }^{256}$ := $H\left( \rho\ ||\ {t}_{1} \right)$
+            
+            \vspace{1ex}
+            
+            \State ${k}_{pub}$ := $\left( \rho, {t}_{1} \right)$
+            \State ${k}_{priv}$ := $\left( \rho, K, {t}_{r}, s, e, {t}_{0} \right)$
+            
+            \vspace{1ex}
+            
+            \State \Return $( {k}_{pub}, {k}_{priv} )$
+        \end{algorithmic}
+   
+    \end{algorithm}
+
+    \begin{algorithm}
+        \caption{\texorpdfstring{\texttt{CRYSTALS}\textsubscript{\texttt{Dilithium}}\texttt{.Sign}(${k}_{priv}, M$)}\/: Message Signing}
+        \label{subrou:crystals-dilithium-sign}
+        
+        \textbf{Input:} $\left( n, q, k, \eta, {k}_{priv}, m \right)$\\
+        \textbf{Output:} $ ( {k}_{pub}, {k}_{priv} ) $
+    
+        \begin{algorithmic}[1]
+            \Require $n = 256$, $q = 7681$, $k > 0$
+            \Ensure $n \in \mathbb{Z},\ q \in \mathbb{Z},\ k \in \mathbb{Z},\ \eta \in \mathbb{Z}$
+            
+            \vspace{2ex}
+            
+            \State $A \sim {\mathcal{R}}_{q}^{( k \times \ell )} = {\mathcal{R}}_{7681}^{( k \times \ell )}$ := \texttt{Sample}($\rho$)
+            \State $\mu \sim { \{ 0 , 1 \} }^{( 2 \cdot n )} = { \{ 0 , 1 \} }^{512}$ := $H\left( {t}_{r}\ ||\ M \right)$
+            \State $\kappa$ := $0$
+            \State $(z, h)$ := $\bot$
+            \State $\rho' \sim { \{ 0 , 1 \} }^{( 2 \cdot n )} = { \{ 0 , 1 \} }^{512}$ := $H\left( K\ ||\ \mu \right)$ (or $\sigma \gets { \{ 0 , 1 \} }^{( 2 \cdot n )} = { \{ 0 , 1 \} }^{512}$ 
+            \Statex \hspace{43.25ex} for randomized signing)
+            
+            \vspace{1ex}
+
+            \While{$(z, h) = \bot$}
+                \State $y \sim { \tilde{\upsilon} }_{ { \gamma }_{1} }^{\ell}$ := \texttt{SampleMask}$( \sigma, \kappa )$
+                \State $w$ := $A \cdot y$
+                \State ${w}_{1}$ := \texttt{HighBits}\textsubscript{$q$}$( w, 2 \cdot {\gamma}_{2} )$
+                \State $\tilde{c} \sim { \{ 0 , 1 \} }^{n} = { \{ 0 , 1 \} }^{256}$ := $H\left( \mu\ ||\ {w}_{1} \right)$
+                \State $c \sim {B}_{\tau}$ := \texttt{SampleInBall}$(\tilde{c})$
+                \State $z$ := $y + c \cdot s$
+                \State ${r}_{0}$ := \texttt{LowBits}\textsubscript{$q$}$( w - c \cdot e, 2 \cdot {\gamma}_{2} )$
+
+                \vspace{1ex}
+
+                \If{ $ \left(\ \left\llbracket\ {\big|\big| z \big|\big|}_{\infty} \geq {\gamma}_{1} - \beta\ \right\rrbracket\ \mathrm{or}\ \left\llbracket\ { \big|\big|{r}_{0} \big|\big| }_{\infty} \geq {\gamma}_{2} - \beta \ \right\rrbracket\ \right) $ }
+                    \State $(z, h)$ := $\bot$ 
+                \Else
+                    \State $h$ := \texttt{MakeHint}\textsubscript{$q$}$( -c \cdot {t}_{0}, w - c \cdot e + c \cdot {t}_{0}, 2 \cdot {\gamma}_{2} )$
+                    \If{ $ \left(\ \left\llbracket\ { \big|\big| c \cdot {t}_{0} \big|\big| }_{\infty} \geq {\gamma}_{2} \ \right\rrbracket\ \mathrm{or}\ \left\llbracket\ weight(h) > \omega \ \right\rrbracket\ \right) $ }
+                        \State $(z, h)$ := $\bot$ 
+                    \EndIf
+                \EndIf
+
+                \vspace{1ex}
+
+                \State $\kappa$ := $\kappa + \ell$
+
+                \vspace{1ex}
+                
+            \EndWhile
+            
+            \vspace{1ex}
+            
+            \State \Return $\sigma = \left( \tilde{c}, z, h \right)$
+        \end{algorithmic}
+   
+    \end{algorithm}
+
+    \begin{algorithm}
+        \caption{\texorpdfstring{\texttt{CRYSTALS}\textsubscript{\texttt{Dilithium}}\texttt{.Verify}(${k}_{priv}, M, \sigma=(\tilde{c},z,h)$)}\/:\\ \phantom{...................................................................................}Signature Verification}
+        \label{subrou:crystals-dilithium-verify}
+        
+        \textbf{Input:} $\left( n, q, k, \eta, {k}_{priv}, m \right)$\\
+        \textbf{Output:} $ ( {k}_{pub}, {k}_{priv} ) $
+    
+        \begin{algorithmic}[1]
+            \Require $n = 256$, $q = 7681$, $k > 0$
+            \Ensure $n \in \mathbb{Z},\ q \in \mathbb{Z},\ k \in \mathbb{Z},\ \eta \in \mathbb{Z}$
+            
+            \vspace{2ex}
+            
+            \State $A \sim {\mathcal{R}}_{q}^{( k \times \ell )} = {\mathcal{R}}_{7681}^{( k \times \ell )}$ := \texttt{Sample}($\rho$)
+            \State $\mu \sim { \{ 0 , 1 \} }^{( 2 \cdot n )} = { \{ 0 , 1 \} }^{512}$ := $H\left( H( \rho, {t}_{1} )\ ||\ M \right)$
+            \State $c$ := \texttt{SampleInBall}($\tilde{c}$)
+            \State ${w}_{1}'$ := \texttt{UseHint}\textsubscript{$q$}$( h, A \cdot z - c \cdot {t}_{1} \cdot {2}^{{d}_{t}}, 2 \cdot {\gamma}_{2} )$
+            \State $is\_valid$ := $\left(\ \big\llbracket\ {\big|\big| z \big|\big|}_{\infty} < {\gamma}_{1} - \beta\ \big\rrbracket\ \mathrm{and}\ \big\llbracket\ \tilde{c} = H(\mu\ ||\ {w}_{1}')\ \big\rrbracket\ \mathrm{and}\ \big\llbracket\ weight(h) \leq \omega\ \big\rrbracket\ \right)$
+           
+            \vspace{1ex}
+            
+            \State \Return $is\_valid$
+        \end{algorithmic}
+   
+    \end{algorithm}
+
+
 \end{document}
