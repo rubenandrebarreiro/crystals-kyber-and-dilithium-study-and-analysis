@@ -1,7 +1,8 @@
 # Apply override to all files in the directories
 # to ignore any TeX file
-report/tex/* linguist-vendored
-report/tex/* linguist-documentation
+report/tex/english/* linguist-vendored
+report/tex/english/* linguist-documentation
+report/tex/english/* linguist-generated
 
 # Apply override to all files in the directories
 # to highlight any Jupyter Notebook file
