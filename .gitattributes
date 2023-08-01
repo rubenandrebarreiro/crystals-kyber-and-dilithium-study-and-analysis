@@ -1,3 +1,4 @@
-# Apply override to all files in the directory
+# Apply override to all files in the directories
 # to ignore any TeX file
 report/tex/* linguist-vendored
+report/tex/* linguist-documentation
