@@ -5,5 +5,5 @@ report/tex/* linguist-documentation
 
 # Apply override to all files in the directories
 # to highlight any Jupyter Notebook file
-demo/* linguist-detectable
-demo/* linguist-language=Jupyter Notebook
+demo/english/kyber/* linguist-detectable
+demo/english/kyber/* linguist-language=Jupyter Notebook
