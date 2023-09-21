@@ -3,7 +3,3 @@
 report/tex/english/*.tex linguist-vendored
 report/tex/english/*.tex linguist-documentation
 report/tex/english/*.tex linguist-generated
-
-# Apply override to all files in the directories
-# to highlight any Jupyter Notebook file
-demo/english/kyber/* linguist-detectable
