@@ -14,16 +14,16 @@
             \declinst{p1}{Alice}{${P}_{1}$}
             \declinst{p2}{Bob}{${P}_{2}$}
 
-            \coordinate (A) at (1.1,-2.75);
+            \coordinate (A) at (-0.35,-2.75);
             \draw (A) node[left] {
                 \begin{tabular}{r}
                     $( {k}_{pub\_A}, {k}_{priv\_A} )$ $\gets$ \texttt{CRYSTALS}\textsubscript{\texttt{Kyber}}
                 \end{tabular}
             };
-            \coordinate (B) at (1.5,-3.2);
+            \coordinate (B) at (1.4,-3.2);
             \draw (B) node[left] {
                 \begin{tabular}{r}
-                    \texttt{.KEM.Key\_Gen()}
+                    \texttt{.KEM.Key\_Gen($n$,$q$,$k$,$\eta$)}
                 \end{tabular}
             };
 
@@ -38,10 +38,10 @@
                     $( ct, K )$ $\gets$ \texttt{CRYSTALS}\textsubscript{\texttt{Kyber}}
                 \end{tabular}
             };
-            \coordinate (D) at (9.3,-3.7);
+            \coordinate (D) at (10.8,-3.7);
             \draw (D) node[left] {
                 \begin{tabular}{r}
-                    \texttt{.KEM.Encaps(${k}_{pub\_A}$)}
+                    \texttt{.KEM.Encaps($n$,$q$,$k$,$\eta$,${k}_{pub\_A}$)}
                 \end{tabular}
             };
 
@@ -58,20 +58,27 @@
 
             \mess{$ct$}{p2}{p1}[1]
 
-            \coordinate (F) at (-0.55,-4.6);
+            \coordinate (F) at (-1.95,-4.4);
             \draw (F) node[left] {
                 \begin{tabular}{r}
-                    $key$ := \texttt{CRYSTALS}\textsubscript{\texttt{Kyber}}
+                    $K$ := \texttt{CRYSTALS}\textsubscript{\texttt{Kyber}}
                 \end{tabular}
             };
-
-            \coordinate (G) at (1.45,-5.05);
+            \coordinate (G) at (1.4,-4.8);
             \draw (G) node[left] {
                 \begin{tabular}{r}
-                    \texttt{.KEM.Decaps(${k}_{priv\_A}$, $ct$)}
+                    \texttt{.KEM.Decaps($n$,$q$,$k$,$\eta$,${k}_{priv\_A}$,$ct$)}
+                \end{tabular}
+            };
+            
+            \coordinate (H) at (1.4,-5.55);
+            \draw (H) node[left] {
+                \begin{tabular}{r}
+                    $key$ := $K$
                 \end{tabular}
             };
 
+            \nextlevel
             \nextlevel
             \nextlevel
             
