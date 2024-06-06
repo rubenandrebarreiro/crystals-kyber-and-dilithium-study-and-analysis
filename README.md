@@ -21,9 +21,11 @@
 [![keyword of this version no. 4](https://img.shields.io/badge/keyword-dilithium-brown.svg)](https://github.com/rubenandrebarreiro/crystals-kyber-and-dilithium-study-and-analysis/)
 
 [![technology used no. 1](https://img.shields.io/badge/built&nbsp;with-jupyter&nbsp;notebook-red.svg)](https://www.jupyter.org/)
-[![technology used no. 2](https://img.shields.io/badge/built&nbsp;with-java-red.svg)](http://www.java.com/)
-[![technology used no. 3](https://img.shields.io/badge/built&nbsp;with-bouncy&nbsp;castle-red.svg)](https://www.bouncycastle.org/)
-[![technology used no. 4](https://img.shields.io/badge/built&nbsp;with-tex-red.svg)](https://tug.org/texlive/)
+[![technology used no. 2](https://img.shields.io/badge/built&nbsp;with-sos&nbsp;notebook-red.svg)](https://vatlab.github.io/sos-docs/notebook.html)
+[![technology used no. 3](https://img.shields.io/badge/built&nbsp;with-java-red.svg)](http://www.java.com/)
+[![technology used no. 4](https://img.shields.io/badge/built&nbsp;with-python-red.svg)](https://www.python.org/)
+[![technology used no. 5](https://img.shields.io/badge/built&nbsp;with-bouncy&nbsp;castle-red.svg)](https://www.bouncycastle.org/)
+[![technology used no. 6](https://img.shields.io/badge/built&nbsp;with-tex-red.svg)](https://tug.org/texlive/)
 
 [![tags](https://img.shields.io/github/tag/rubenandrebarreiro/crystals-kyber-and-dilithium-study-and-analysis?include_prereleases=&sort=semver&color=blue)](https://github.com/rubenandrebarreiro/crystals-kyber-and-dilithium-study-and-analysis/releases/)
 [![license](https://img.shields.io/badge/License-MIT-blue)](#license)
@@ -38,9 +40,21 @@
 
 ## Description
 
-> A [**_1st year's lab work (project)_**](https://www.fenix.tecnico.ulisboa.pt/cursos/deaseginf/disciplina-curricular/845953938490385) of the [**_Ph.D. degree of Information Security_**](https://www.fenix.tecnico.ulisboa.pt/cursos/deaseginf) made in [**_Técnico Lisboa of University of Lisbon)_**](https://tecnico.ulisboa.pt/), in the subject of [**_Advanced Topics in Information Security II_**](https://www.fenix.tecnico.ulisboa.pt/cursos/deaseginf/disciplina-curricular/845953938490385). This project was built using [**_Jupyter Notebook_**](https://www.jupyter.org/), [**_Java_**](http://www.java.com/), [**_Bouncy Castle library_**](https://www.bouncycastle.org/), and [**_TeX_**](https://tug.org/texlive/). The goal of the project was the study and analysis of the [**_CRYSTALS_** (**_CRYptographic SuiTe for Algebraic LatticeS_**)](https://www.pq-crystals.org/index.shtml) public-key (asymmetric) cryptographic primitive from [**_(Classical) Post-Quantum Cryptographyc_**](https://en.wikipedia.org/wiki/Post-quantum_cryptography), regarding [**_Lattice-based Cryptography_**](https://en.wikipedia.org/wiki/Lattice-based_cryptography), namely in the form of [**_LWE (Learning With Errors)_**](https://en.wikipedia.org/wiki/Learning_with_errors) Cryptography. Most specifically, [**_CRYSTALS_** (**_CRYptographic SuiTe for Algebraic LatticeS_**)](https://www.pq-crystals.org/index.shtml) encompasses two crypotographic primitives, both based on the computational hardness from the mathematical problem of MLWE (Module-Learning With Errors):
+> A [**_1st year's lab work (project)_**](https://www.fenix.tecnico.ulisboa.pt/cursos/deaseginf/disciplina-curricular/845953938490385) of the [**_Ph.D. degree of Information Security_**](https://www.fenix.tecnico.ulisboa.pt/cursos/deaseginf) made in [**_Técnico Lisboa of University of Lisbon)_**](https://tecnico.ulisboa.pt/), in the subject of [**_Advanced Topics in Information Security_**](https://www.fenix.tecnico.ulisboa.pt/cursos/deaseginf/disciplina-curricular/845953938490385). This project was built using [**_Jupyter Notebook_**](https://www.jupyter.org/), [**_SoS (Script of Script) Notebook_**](https://vatlab.github.io/sos-docs/notebook.html), [**_Java_**](http://www.java.com/), [**_Python_**](https://www.python.org/), [**_Bouncy Castle library_**](https://www.bouncycastle.org/), and [**_TeX_**](https://tug.org/texlive/). The goal of the project was the study and analysis of the [**_CRYSTALS_** (**_CRYptographic SuiTe for Algebraic LatticeS_**)](https://www.pq-crystals.org/index.shtml) public-key (asymmetric) cryptographic primitive from [**_(Classical) Post-Quantum Cryptographyc_**](https://en.wikipedia.org/wiki/Post-quantum_cryptography), regarding [**_Lattice-based Cryptography_**](https://en.wikipedia.org/wiki/Lattice-based_cryptography), namely in the form of [**_LWE (Learning With Errors)_**](https://en.wikipedia.org/wiki/Learning_with_errors) Cryptography. Most specifically, [**_CRYSTALS_** (**_CRYptographic SuiTe for Algebraic LatticeS_**)](https://www.pq-crystals.org/index.shtml) encompasses two crypotographic primitives, both based on the computational hardness from the mathematical problem of MLWE (Module-Learning With Errors):
 > 1. [**_CRYSTALS-Kyber_**](https://pq-crystals.org/kyber/index.shtml): Lattice-based KEM (Key Encapsulation Mechanism/Method) and Public-Key (Asymmetric) Encryption algorithm, which is secure (and has) IND-CCA2 (INDistinguishability under adaptive Chosen Ciphertext Attack);
 > 2. [**_CRYSTALS-Dilithium_**](https://pq-crystals.org/dilithium/index.shtml): Lattice-based Digital Signature algorithm, which is strongly secure against CMA (Chosen-Message Attack).
+
+***
+
+## Contents
+
+> **_Code Demonstration_** written in [**_Jupyter Notebook_**](https://www.jupyter.org/), using [**_SoS (Script of Script)_**](https://vatlab.github.io/sos-docs/notebook.html) ([**_Java_**](http://www.java.com/) + [**_Python_**](https://www.python.org/)) and [**_Bouncy Castle_**](https://www.bouncycastle.org/) (English version):
+> * [**_CRYSTALS-Kyber_**](https://github.com/rubenandrebarreiro/crystals-kyber-and-dilithium-study-and-analysis/blob/main/demo/english/kyber/crystals-kyber-demonstration-and-analysis.ipynb)
+> * [**_CRYSTALS-Dilithium_**](https://github.com/rubenandrebarreiro/crystals-kyber-and-dilithium-study-and-analysis/blob/main/demo/english/dilithium/crystals-dilithium-demonstration-and-analysis.ipynb)
+
+> **_Report_** written in [**_TeX_**](https://tug.org/texlive/) (English version):
+> * [**_Source Code_**](https://github.com/rubenandrebarreiro/crystals-kyber-and-dilithium-study-and-analysis/tree/main/report/tex/english)
+> * [**_PDF_**](https://github.com/rubenandrebarreiro/crystals-kyber-and-dilithium-study-and-analysis/blob/main/report/pdf/english/crystals-kyber-and-dilithium-study-and-analysis.pdf)
 
 ***
 
@@ -91,7 +105,9 @@ git clone git@github.com:rubenandrebarreiro/crystals-kyber-and-dilithium-study-a
 
 ## Built with
 * [**_Jupyter Notebook_**](https://www.jupyter.org/)
+* [**_SoS (Script of Script)_**]()
 * [**_Java_**](http://www.java.com/)
+* [**_Python_**](https://www.python.org/)
 * [**_Bouncy Castle library_**](https://www.bouncycastle.org/)
 * [**_TeX_**](https://tug.org/texlive/)
 
